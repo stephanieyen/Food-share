@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <!--Import bootstrap.css here using the CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="static/css/donate.css?q={{ time }}" />
+        <title>Donate food</title>
+    </head>
+    <body>
+
+
+
+        
+        <div class="container">
+            <h1>Donate food</h1>
+            <form method="POST" action="/donate">
+                <div class="form-group">
+                    <label for="fullname">Full name</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="descriptionoffood">Description of the food (including quantity)</label>
+                    <input type="text" class="form-control" id="description" name="description">
+                </div>
+                <div class="form-group">
+                    <label for="typeoffood">Type of food</label>
+                    <select class="form-control" id="type" name="type">
+                    <option>Fruits (e.g., apples, bananas)</option>
+                    <option>Vegetables (e.g., lettuce, potatoes)</option>
+                    <option>Protein (e.g., chicken, tofu)</option>
+                    <option>Dairy (e.g., cheese, yogurt)</option>
+                    <option>Grains/dry goods (e.g., pasta, bread)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="emailaddess">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="cityname">What city are you located in?</label>
+                    <input type="text" class="form-control" id="city" name="city">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </form>
+        </div>
+        <!-- {% if session.name %}
+        {% endif %}
+        <a href="/events/new"><button>Add a new event</button></a>
+        <a href="/signup"><button>Sign up</button></a>
+        <a href="/myevents"><button>My events</button></a>
+        <a href="/login"><button>Log in</button></a>
+        <a href="/logout"><button>Log out</button></a> -->
+
+       <!-- Compiled and minified JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
