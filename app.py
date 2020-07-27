@@ -5,24 +5,21 @@ from flask import render_template
 from flask import request
 from flask_pymongo import PyMongo
 from flask import redirect
-import pprint
 from flask import session, url_for
 from datetime import datetime
-
+import pprint
+import os
 
 # -- Initialization section --
 app = Flask(__name__)
 
-events = [
-        {"event":"First Day of Classes", "date":"2019-08-21"},
-        {"event":"Winter Break", "date":"2019-12-20"},
-        {"event":"Finals Begin", "date":"2019-12-01"}
-    ]
+user = os.environ["user"]
+pw = os.environ["pw"]
 
 # name of database
 app.config['MONGO_DBNAME'] = 'food-fusion'
 # URI of database
-app.config['MONGO_URI'] = 'mongodb+srv://admin:helloworld@cluster0.ovdqf.mongodb.net/food-fusion?retryWrites=true&w=majority'
+app.config['MONGO_URI'] = f'mongodb+srv://{user}:{pw}@cluster0.ovdqf.mongodb.net/food-fusion?retryWrites=true&w=majority'
 
 mongo = PyMongo(app)
 
@@ -41,7 +38,6 @@ def index():
 @app.route('/donate', methods = ["GET", "POST"])
 
 def donate():
-    # need to store user import 
     if request.method == "GET":
         return render_template('donate.html', time=datetime.now())
     else:
@@ -61,7 +57,6 @@ def donate():
 @app.route('/receive', methods = ["GET", "POST"])
 
 def receive():
-    # need to store user import 
     if request.method == "GET":
         return render_template('receive.html', time=datetime.now())
     else:
@@ -71,9 +66,10 @@ def receive():
         # this is connecting to mongodb
         donate = mongo.db.donate
         donateView = list(donate.find({'city': city, 'type': typeoffood})) # sort?
+        if len(donateView) > 0:
+            message = "You got some results!"
+        else:
+            message = "Sorry, we couldn't find any results."
         print(donateView)
-        return render_template('receive.html', time=datetime.now(), donateView=donateView)
+        return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message)
 
-        # return "You requested food"
-    # connect to the database
-    # insert new data
