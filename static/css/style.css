@@ -1,0 +1,75 @@
+.masthead {
+    background-color: papayawhip;
+    padding: 50px;
+}
+
+.page-section {
+    padding: 40px;
+}
+
+.masthead-heading,
+.page-section-heading {
+    font-family: 'Domine', serif;
+    font-weight: bold;
+    text-align: left;
+    color: #3b2747;
+}
+
+.masthead-heading {
+    font-size: 50px;
+}
+.masthead-subheading {
+    font-family: 'Quattrocento Sans', sans-serif;
+    font-size: 30px;
+}
+
+.circular-landscape:hover, 
+.circular-portrait:hover {
+    opacity: 0.5;
+    box-shadow: 0 0 5px 5px;
+}
+
+.circular-landscape {
+    display: inline-block;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.circular-landscape img {
+    width: auto;
+    height: 100%;
+    margin-left: -40px;
+}
+
+.circular-portrait {
+    display: inline-block;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.circular-portrait img {
+    width: 100%;
+    height: auto;
+    margin-top: -55px;
+}
+
+#about {
+    background-color: #edeae5;
+}
+
+#groceries {
+    max-width:100%;
+    height:auto;
+}
+
+#howitworks {
+
+}
+
+/* green color: #cfdec9 */
