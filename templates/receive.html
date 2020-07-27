@@ -73,26 +73,40 @@
             <!-- <input type="submit" value="Submit"> -->
         </form>
     </div>
-    
     <!-- Show results after submission -->
     <div class="container" id="donateView">
         <p>{{message}}</p>
         <div class="row">
-        {% for donation in donateView %}
+            {% for donation in donateView %}
             <div class="col-sm-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{donation.description}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{donation.type}}</h6>
-                    <p class="card-text">Donated by {{donation.name}} in {{donation.city}}.
-                        <br>Contact them at {{donation.email}}!</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="btn btn-primary">Reserve</a>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{donation.description}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{donation.type}}</h6>
+                        <p class="card-text">Donated by {{donation.name}} in {{donation.city}}.
+                            <br>Contact them at {{donation.email}}!</p>
+                        <a class="btn btn-primary" href="/check_availability/{{donation.description}}">See availabilty</a>
+                    </div>
                 </div>
-            </div>
             </div>
         {% endfor %}
         </div>
+        <br>
+    </div>
+    <div class="container">
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+                <h2>Quantity left: {{remaining}}</h2>
+                <form method="POST" action="/check_availability">
+                    <div class="form-group">
+                        <label for="quantity"></label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" placeholder="quantity" required>
+                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
         <!-- <ul> -->
             <!-- <li>
             </li> -->

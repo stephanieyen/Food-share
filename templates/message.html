@@ -21,40 +21,9 @@
 
 <body>
 	<div class="container">
-		<h1>Donate Food!</h1>
-		<form method="POST" action="/donate">
-			<div class="form-group">
-				<label for="fullname">Full name</label>
-				<input type="text" class="form-control" id="name" name="name" placeholder="Jane Doe" required>
-            </div>
-            <div class="form-group">
-				<label for="cityname">What city are you located in?</label>
-				<input type="text" class="form-control" id="city" name="city" placeholder="City" required>
-            </div>
-			<div class="form-group">
-				<label for="descriptionoffood">Description of the food (including quantity)</label>
-				<input type="text" class="form-control" id="description" name="description" placeholder="Example: 5 ripe bananas" required>
-            </div>
-			<div class="form-group">
-				<label for="typeoffood">Type of food</label>
-				<select class="form-control" id="type" name="type" required>
-                    <option>Fruits (e.g., apples, bananas)</option>
-                    <option>Vegetables (e.g., lettuce, potatoes)</option>
-                    <option>Protein (e.g., chicken, tofu)</option>
-                    <option>Dairy (e.g., cheese, yogurt)</option>
-                    <option>Grains/dry goods (e.g., pasta, bread)</option>
-                </select>
-			</div>
-            <div class="form-group">
-				<label for="quantity">What's the quantity of the item that you are donating?</label>
-				<input type="number" class="form-control" id="" name="quantity" placeholder="quantity" required>
-            </div>
-			<div class="form-group">
-				<label for="emailaddess">Email address</label>
-				<input type="email" class="form-control" id="email" name="email" placeholder="jdoe@example.com" required>
-            </div>
-			<button type="submit" class="btn btn-primary mb-2">Submit</button>
-		</form>
+        <h1>Name of donor: {{name}}</h1>
+        <p>quantity: {{quantity}}</p>
+        <a href="/donate"><button type="button" class="btn btn-primary">Donate more</button></a>
 	</div>
 
 	<!-- {% if session.name %}
