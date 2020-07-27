@@ -7,6 +7,7 @@ from flask_pymongo import PyMongo
 from flask import redirect
 import pprint
 from flask import session, url_for
+from datetime import datetime
 
 
 # -- Initialization section --
@@ -42,19 +43,37 @@ def index():
 def donate():
     # need to store user import 
     if request.method == "GET":
-        return render_template('donate.html')
+        return render_template('donate.html', time=datetime.now())
     else:
         # this is storing the data from the form 
         name = request.form['name']
-        description = request.form['description']
-        kind = request.form['type']
-        email = request.form['email']
         city = request.form['city']
-        # this is connecting events to mongodb
+        description = request.form['description']
+        typeoffood = request.form['type']
+        email = request.form['email']
+        # this is connecting to mongodb
         donate = mongo.db.donate
-        donate.insert({'name': name, 'description': description, 'type': kind, 'email': email, 'city': city})
+        # insert new data
+        donate.insert({'name': name, 'city': city, 'description': description, 'type': typeoffood, 'email': email})
+        # return a message to the user
         return "You added food to the database"
+
+@app.route('/receive', methods = ["GET", "POST"])
+
+def receive():
+    # need to store user import 
+    if request.method == "GET":
+        return render_template('receive.html', time=datetime.now())
+    else:
+        # this is storing the data from the form 
+        city = request.form['city']
+        typeoffood = request.form['type']
+        # this is connecting to mongodb
+        donate = mongo.db.donate
+        donateView = list(donate.find({'city': city, 'type': typeoffood})) # sort?
+        print(donateView)
+        return render_template('receive.html', time=datetime.now(), donateView=donateView)
+
+        # return "You requested food"
     # connect to the database
     # insert new data
-
-    # return a message to the user
