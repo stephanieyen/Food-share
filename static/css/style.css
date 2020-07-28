@@ -19,10 +19,60 @@
     font-size: 50px;
 }
 .masthead-subheading {
-    font-family: 'Quattrocento Sans', sans-serif;
-    font-size: 30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
 }
 
+p {
+    font-family: 'Quattrocento Sans', sans-serif;
+    font-size: 20px;
+}
+
+#groceries {
+    display: inline-block;
+    position: relative;
+    height: 50px;
+    width: 200px;
+}
+#groceries img {
+    max-width: 70%;
+    max-height: 70%;
+    margin: auto;
+    display: block;
+}
+
+/* .portrait {
+    height: 50%; 
+    width: auto; 
+    object-fit: contain;
+} */
+
+/*** FOOD EXAMPLES ***/
+
+#foodexamples {
+    align-content: center;
+}
+
+#imgwrapper {
+    display: inline-block;
+    position: relative;
+    text-align: center;
+}
+#caption {
+    display: none;
+    font-family: 'Quattrocento Sans', sans-serif;
+    font-size: 150%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #3b2747;
+    background-color: #papayawhip;
+    background-image: linear-gradient(to right, #fff2ac 0%, #ffefd5 100%);
+}
+#imgwrapper:hover #caption {
+    display: block;
+}
 .circular-landscape:hover, 
 .circular-portrait:hover {
     opacity: 0.5;
@@ -37,11 +87,10 @@
     overflow: hidden;
     border-radius: 50%;
 }
-
 .circular-landscape img {
     width: auto;
     height: 100%;
-    margin-left: -40px;
+    margin-left: -25px;
 }
 
 .circular-portrait {
@@ -52,13 +101,13 @@
     overflow: hidden;
     border-radius: 50%;
 }
-
 .circular-portrait img {
     width: 100%;
     height: auto;
     margin-top: -55px;
 }
 
+/*** ABOUT SECTION ***/
 #about {
     background-color: #edeae5;
 }
