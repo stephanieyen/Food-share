@@ -5,6 +5,29 @@
 {% extends "base.html" %}
 {% block content %}
 
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+    <a class="navbar-brand" href="/index">
+        <i class="fas fa-shopping-basket"></i>
+        Food Fusion
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="/index">Home<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/donate">Donate</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/receive">Receive</a>
+        </li>
+        </ul>
+    </div>
+    </nav>
+
     <!-- Masthead -->
     <header class="masthead">
         <div class="container align-items-center flex-column">
@@ -47,15 +70,15 @@
             <!-- About Section Heading -->
             <h2 class="page-section-heading">About</h2>
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                     <div class="container">
-                    <div class="row"><p>Ever bought food at the grocery store only to realize that you could never eat it all in a week, like you thought you could? Yeah, we have, too.</p></div>
-                    <div class="row"><p>Food Fusion makes it easy for communities to share surplus or unwanted foods that would otherwise go to waste.</p></div>
-                    <div class="row"><p>Over 1/3 of all food produced in the world goes uneaten. Instead of throwing your food in the trash can, just make a submission on our website and help out a fellow neighbor!</p></div>
-                    <div class="row"><p>And if you're worried about spending too much money and time at the grocery store, we got you covered, too. Check out what your neighbors have donated on our website, and you may be able to receive some free food (and make new friends in the process)!</p></div>
+                    <div class="row"><p>Ever bought food at the grocery store only to realize that you could never eat it all in a week, like you thought you could? Yeah, we have, too. In fact, over 1/3 of all food produced in the world goes uneaten.</p></div>
+                    <div class="row"><p>Food Fusion is a community food-sharing app that makes it easy for everyone to donate and receive surplus or unwanted foods that would otherwise go to waste.</p></div>
+                    <div class="row"><p>Instead of throwing your food in the trash can, just make a submission on our website and help out a local neighbor or food pantry!</p></div>
+                    <div class="row"><p>Food pantries are welcome to use our website to receive and distribute food donations at their discretion. If you're just an individual worried about spending too much money and time at the grocery store, we got you covered, too. Check out what your neighbors have donated on our website, and you may be able to receive some free food (and make new friends in the process)!</p></div>
                     </div>
                 </div>
-                <div class="col-sm-6" id="groceries">
+                <div class="col-sm-4" id="groceries">
                     <img src="/../static/assets/groceries.jpeg">
                 </div>
             </div>
@@ -66,6 +89,26 @@
         <div class="container">
             <!-- How It Works Section Heading -->
             <h2 class="page-section-heading">How It Works</h2>
+            <div class="row">
+
+                <div class="col-sm-4">
+                    <h3 class="how-it-works-heading">Option 1: Donate</h3>
+                    <p>Got any extra fruits, vegetables, protein, dairy, or grains at your home? Add donations to our database, and we will help you pass your food along to a neighbor or food pantry in your city!</p>
+                    <a class="btn btn-custom" href="/donate" role="button">Donate</a>
+                </div>
+                
+                <div class="col-sm-4">
+                    <h3 class="how-it-works-heading">Option 2: Receive</h3>
+                    <p>Whether you're a food pantry or an individual, browse the food donations in your city, and find the exact food that you are looking for! You will be able to specify the type and quantity of food that you need.</p>
+                    <a class="btn btn-custom" href="/receive" role="button">Receive</a>
+                </div>
+
+                <div class="col-sm-4">
+                    <h3 class="how-it-works-heading">Enjoy!</h3>
+                    <p>Food Fusion runs on community — so whether you donated food or received food, be thankful for your neighbors, and make sure to pay it forward. Thank you for using Food Fusion! :)</p>
+                </div>
+
+            </div>
         </div>
     </section>
 

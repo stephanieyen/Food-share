@@ -2,13 +2,15 @@
 <html lang="en">
 
 <head>
-
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- Import the webpage's stylesheet -->
     <link rel="stylesheet" type="text/css" href="static/css/style.css?q={{ time }}" />
+
+    <!-- Import Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -20,41 +22,78 @@
 </head>
 
 <body>
-    <!-- Nav bar with image and text -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">
-        <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-        Bootstrap
+    <!-- NAV BAR -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+    <a class="navbar-brand" href="/index">
+        <i class="fas fa-shopping-basket"></i> Food Fusion
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    </button> -->
+    <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
             <a class="nav-link" href="/index">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/index">Link</a>
+            <a class="nav-link" href="/donate">Donate</a>
         </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+        <li class="nav-item">
+            <a class="nav-link" href="/receive">Receive</a>
         </li>
         </ul>
     </div>
-    </nav>
+    </nav> -->
     
     <!-- PAGE CONTENT -->
     <div id="content">{% block content %}{% endblock %}</div>
     
+    <!-- FOOTER -->
+    <div class="footer">
+        
+      <div class="footer-content">
+
+        <div class="footer-section about">
+          <h1 class="logo-text"><span><i class="fas fa-shopping-basket"></i></span> Food Fusion</h1>
+          <div class="contact">
+            <span><i class="fas fa-phone"></i> &nbsp; (XXX) XXX-XXXX</span>
+            <span><i class="fas fa-envelope"></i> &nbsp; stephanie@foodfusion.com</span>
+            <span><i class="fas fa-envelope"></i> &nbsp; wafi@foodfusion.com</span>
+          </div>
+          <div class="newsocials">
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+          <!-- <div class="socials">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div> -->
+        </div>
+
+        <div class="footer-section contact-form">
+          <h2>Contact Us</h2>
+          <br>
+          <form action="index.html" method="POST">
+            <input type="text" class="form-control contact-input" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" placeholder="Email">
+            <textarea  class="form-control contact-input" placeholder="Message"></textarea>
+            <button type="submit" class="btn btn-big btn-custom">
+              <i class="fas fa-envelope"></i> Submit  
+            </button>  
+          </form>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        &copy; Food Fusion
+      </div>
+
+    </div>
+
     <!-- Compiled and minified JavaScript -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
