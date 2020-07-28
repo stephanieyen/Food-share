@@ -53,11 +53,15 @@
         <form method="POST" action="/receive">
             <div class="form-group">
 				<label for="fullname">Full name</label>
-				<input type="text" class="form-control" id="name" name="name" placeholder="Jane Doe">
+				<input type="text" class="form-control" id="name" name="name">
+            </div>
+            <div class="form-group">
+				<label for="email">Email</label>
+				<input type="text" class="form-control" id="email" name="email">
             </div>
             <div class="form-group">
 				<label for="cityname">What city are you located in?</label>
-				<input type="text" class="form-control" id="city" name="city" placeholder="City">
+				<input type="text" class="form-control" id="city" name="city">
             </div>
             <div class="form-group">
                 <label for="typeoffood">Type of Food</label>
@@ -69,7 +73,7 @@
                     <option>Grains/dry goods (e.g., pasta, bread)</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary mb-2" onclick="showElement()">Submit</button>
+            <button type="submit" class="btn btn-primary mb-2">Submit</button>
             <!-- <input type="submit" value="Submit"> -->
         </form>
     </div>
@@ -93,20 +97,6 @@
         </div>
         <br>
     </div>
-    <div class="container">
-        <div class="collapse multi-collapse" id="multiCollapseExample1">
-            <div class="card card-body">
-                <h2>Quantity left: {{remaining}}</h2>
-                <form method="POST" action="/check_availability">
-                    <div class="form-group">
-                        <label for="quantity"></label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" placeholder="quantity" required>
-                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
         <!-- <ul> -->
             <!-- <li>
             </li> -->
@@ -118,12 +108,6 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script>
-        function showElement() {
-            element = document.getElementById("donateView");;
-            element.style.display = 'block';
-        }
-    </script>
 </body>
 
  <!-- document.getElementById("submitbutton").onclick = function() {
