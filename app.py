@@ -43,17 +43,18 @@ def donate():
     else:
         # this is storing the data from the form 
         name = request.form['name']
-        city = request.form['city']
+        city = request.form['city'].lower()
+        print(city)
         description = request.form['description']
         typeoffood = request.form['type']
         email = request.form['email']
+        quantity = request.form['quantity']
         # this is connecting to mongodb
         donate = mongo.db.donate
         # insert new data
-        donate.insert({'name': name, 'city': city, 'description': description, 'type': typeoffood, 'email': email})
+        donate.insert({'name': name, 'city': city, 'description': description, 'type': typeoffood, 'email': email, 'quantity': quantity})
         # return a message to the user
-        return "You added food to the database"
-
+        return render_template('confirmation.html', time=datetime.now())
 @app.route('/receive', methods = ["GET", "POST"])
 
 def receive():
@@ -61,8 +62,10 @@ def receive():
         return render_template('receive.html', time=datetime.now())
     else:
         # this is storing the data from the form 
-        city = request.form['city']
+        city = request.form['city'].lower()
+        print(city)
         typeoffood = request.form['type']
+        email = request.form['email']
         # this is connecting to mongodb
         donate = mongo.db.donate
         donateView = list(donate.find({'city': city, 'type': typeoffood})) # sort?
@@ -71,5 +74,60 @@ def receive():
         else:
             message = "Sorry, we couldn't find any results."
         print(donateView)
-        return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message)
+        return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message, email = email)
 
+# @app.route('/deleteall')
+# def deleteall():
+#     donate = mongo.db.donate
+#     view = donate.find({})
+#     donate.remove({})
+#     return "You deleted everything"
+
+@app.route('/check_availability/<description>', methods = ["GET", "POST"])
+def check_availability(description):
+    if request.method == "GET":
+        # this is storing the data from the form
+        donate = mongo.db.donate
+        donateview = list(donate.find({"description": description}))
+        print(donateview)
+        quantity = donateview[0]["quantity"]
+        food = donateview[0]["description"]
+        kind = donateview[0]["type"]
+        name = donateview[0]["name"]
+        email = donateview[0]["email"]
+        print(quantity)
+        return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email)
+    else:
+        # get the user quantity from form
+        user_quantity = request.form['quantity']
+        # connect with database and query the database and store variables "89-98"
+        donate = mongo.db.donate
+        donateview = list(donate.find({"description": description}))
+        # print(donateview)
+        quantity = donateview[0]["quantity"]
+        # print(quantity)
+        # subtraction = subtract user_quantity from quantity
+        remaining = int(quantity) - int(user_quantity)
+        print(remaining)
+        # compare it with the quantity that's already in the database
+        if remaining > 0:
+            donate.update({'description': description}, {"$set": {'quantity': str(remaining)}})
+            donate = mongo.db.donate
+            donateview = list(donate.find({"description": description}))
+            print(donateview)
+            quantity = donateview[0]["quantity"]
+            food = donateview[0]["description"]
+            kind = donateview[0]["type"]
+            name = donateview[0]["name"]
+            email = donateview[0]["email"]
+            print(quantity)
+            return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email)
+        elif remaining == 0:
+            donate = mongo.db.donate
+            donate.remove({"description": description})
+            return render_template('receive.html', time=datetime.now())
+        else: 
+            return "You need more than we have available"
+        # if subtraction is negative then say "we don't have enough"
+        # else do the subtraction and save it to the database
+        # return "page in progress"

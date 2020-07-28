@@ -21,10 +21,29 @@
 
 <body>
 	<div class="container">
-        <h1>Name of donor: {{name}}</h1>
-        <p>quantity: {{quantity}}</p>
-        <a href="/donate"><button type="button" class="btn btn-primary">Donate more</button></a>
+        <h3>Name of donor: {{name}}</h3>
+        <h3>Email: {{email}}</h3>
+        <h3>Name of food: {{food}}</h3>
+        <h3>Kind of food: {{kind}}</h3>
+        <h3>quantity left: {{quantity}}</h3>
+        <form method="POST" action="/check_availability/{{food}}">
+            <div class="form-group">
+                <label for="quantity">How much do you want?</label>
+                <input type="number" class="form-control" id="quantity" name="quantity" required>
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </div>
+        </form>
+        <a href="/receive"><button type="button" class="btn btn-primary">Go back</button></a>
 	</div>
+
+    <div class="container">
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="card card-body">
+                <h2>Quantity left: {{remaining}}</h2>
+                
+            </div>
+        </div>
+    </div>
 
 	<!-- {% if session.name %}
         {% endif %}
