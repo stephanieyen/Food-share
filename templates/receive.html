@@ -1,9 +1,11 @@
 <head>
-    <title>Donate Food</title>
+    <title>Receive Food</title>
 </head>
 
 {% extends "base.html" %}
 {% block content %}
+
+    <!-- NAV BAR -->
     <nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
     <a class="navbar-brand" href="/index">
         <i class="fas fa-shopping-basket"></i>
@@ -27,27 +29,34 @@
     </div>
     </nav>
 
-    <section class="page-section receive">
+    <!-- PAGE CONTENT -->
+    <!-- Masthead -->
+    <header class="masthead" id="receive-masthead">
         <div class="container">
             <!-- Masthead Heading -->
-            <h1 class="masthead-heading mb-0">Receive Food</h1>
-            
+            <h1 class="masthead-heading highlight">Receive Food</h1>
+        </div>
+    </header>
+
+     <!-- Form -->
+    <section class="page-section" id="receive-form-section">
+        <div class="container">
             <form method="POST" action="/receive">
                 <div class="form-group">
                     <label for="fullname">Full name</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Jane Doe" required>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email">
+                    <label for="email">Email address</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="jdoe@example.com" required>
                 </div>
                 <div class="form-group">
                     <label for="cityname">What city are you located in?</label>
-                    <input type="text" class="form-control" id="city" name="city">
+                    <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
                 </div>
                 <div class="form-group">
-                    <label for="typeoffood">Type of Food</label>
-                    <select multiple class="form-control"id="type" name="type">
+                    <label for="typeoffood">Type(s) of food you would like to receive</label>
+                    <select multiple class="form-control" id="type" name="type">
                         <option>Fruits (e.g., apples, bananas)</option>
                         <option>Vegetables (e.g., lettuce, potatoes)</option>
                         <option>Protein (e.g., chicken, tofu)</option>
@@ -55,7 +64,7 @@
                         <option>Grains/dry goods (e.g., pasta, bread)</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                <button type="submit" class="btn btn-custom">Submit</button>
                 <!-- <input type="submit" value="Submit"> -->
             </form>
         </div>
@@ -67,18 +76,17 @@
                 <div class="col-sm-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">{{donation.description}}</h5>
+                            <h5 class="card-title">{{donation.description|capitalize}}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{donation.type}}</h6>
-                            <p class="card-text">Donated by {{donation.name}} in {{donation.city}}.
+                            <p class="card-text">Donated by {{donation.name|capitalize}} in {{donation.city|capitalize}}.
                                 <br>Contact them at {{donation.email}}!</p>
-                            <a class="btn btn-primary" href="/check_availability/{{donation.description}}">See availabilty</a>
+                            <a class="btn btn-custom" href="/check_availability/{{donation.description}}">See availabilty</a>
                         </div>
                     </div>
                 </div>
             {% endfor %}
             </div>
             <br>
-        </div>
         </div>
     </section>
    
