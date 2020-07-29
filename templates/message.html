@@ -38,29 +38,30 @@
         </div>
     </header>
 
-	<div class="container" id="test">
-        <h3>Name of donor: {{name}}</h3>
-        <h3>Email: {{email}}</h3>
-        <h3>Name of food: {{food}}</h3>
-        <h3>Kind of food: {{kind}}</h3>
-        <h3>quantity left: {{quantity}}</h3>
-        <form method="POST" action="/check_availability/{{food}}">
-            <div class="form-group">
-                <label for="quantity">How much do you want?</label>
-                <input type="number" class="form-control" id="quantity" name="quantity" required>
-                <button type="submit" class="btn btn-primary mb-2">Submit</button>
-            </div>
-        </form>
-        <a href="/receive"><button type="button" class="btn btn-primary">Go back</button></a>
-	</div>
+    <section class="page-section" id="check-availability-section">
+        <div class="container">
+            <h3>Name of donor: <span class="detail">{{name}}</detail></h3>
+            <h3>Email: <span class="detail">{{email}}</detail></h3>
+            <h3>Name of food: <span class="detail">{{food}}</detail></h3>
+            <h3>Kind of food: <span class="detail">{{kind}}</detail></h3>
+            <h3>Quantity left: <span class="detail">{{quantity}}</detail></h3>
+            <form method="POST" action="/check_availability/{{food}}">
+                <div class="form-group">
+                    <label for="quantity">How much of this food do you want?</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity (#)" required>
+                    <button type="submit" class="btn btn-custom">Submit</button>
+                </div>
+            </form>
+            <a href="/receive"><button type="button" class="btn btn-custom">Go back</button></a>
+        </div>
 
-    <div class="container">
-        <div class="collapse multi-collapse" id="multiCollapseExample1">
-            <div class="card card-body">
-                <h2>Quantity left: {{remaining}}</h2>
-                
+        <div class="container">
+            <div class="collapse multi-collapse" id="multiCollapseExample1">
+                <div class="card card-body">
+                    <h2>Quantity left: {{remaining}}</h2>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
 {% endblock %}
