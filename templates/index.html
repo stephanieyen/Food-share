@@ -5,6 +5,7 @@
 {% extends "base.html" %}
 {% block content %}
 
+    <!-- NAV BAR -->
     <nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
     <a class="navbar-brand" href="/index">
         <i class="fas fa-shopping-basket"></i>
@@ -28,36 +29,36 @@
     </div>
     </nav>
 
+    <!-- PAGE CONTENT -->
     <!-- Masthead -->
     <header class="masthead">
-        <div class="container align-items-center flex-column">
+        <div class="container flex-column">
             <!-- Masthead Heading -->
-            <h1 class="masthead-heading mb-0">Food Fusion</h1>
+            <h1 class="masthead-heading">Food Fusion</h1>
             <!-- Masthead Tagline -->
             <p class="masthead-subheading">Bringing communities together</p>
-            <div class="container" id="foodexamples">
-
-                <div id="imgwrapper">
+            <div class="container foodexamples">
+                <div class="imgwrapper">
                     <div class="circular-landscape"><img src="/../static/assets/strawberries.jpeg"></div>
                     <p id="caption">Fruits</p>
                 </div>
 
-                <div id="imgwrapper">
+                <div class="imgwrapper">
                     <div class="circular-landscape"><img src="/../static/assets/greenspinach.jpeg"></div>
                     <p id="caption">Vegetables</p>
                 </div>
                 
-                <div id="imgwrapper">
+                <div class="imgwrapper">
                     <div class="circular-portrait"><img src="/../static/assets/salmon.jpeg"></div>
                     <p id="caption">Protein</p>
                 </div>
                 
-                <div id="imgwrapper">
+                <div class="imgwrapper">
                     <div class="circular-landscape"><img src="/../static/assets/yogurt.jpg"></div>
                     <p id="caption">Dairy</p>
                 </div>
                 
-                <div id="imgwrapper">
+                <div class="imgwrapper">
                     <div class="circular-landscape"><img src="/../static/assets/pasta.jpeg"></div>
                     <p id="caption">Grains</p>
                 </div>
@@ -65,7 +66,7 @@
    </header>
 
     <!-- About Section -->
-    <section class="page-section" id="about">
+    <section class="page-section" id="about-section">
         <div class="container">
             <!-- About Section Heading -->
             <h2 class="page-section-heading">About</h2>
@@ -85,32 +86,31 @@
     </section>
     
     <!-- How It Works Section -->
-    <section class="page-section" id="howitworks">
+    <section class="page-section" id="howitworks-section">
         <div class="container">
             <!-- How It Works Section Heading -->
             <h2 class="page-section-heading">How It Works</h2>
             <div class="row">
 
                 <div class="col-sm-4">
-                    <h3 class="how-it-works-heading">Option 1: Donate</h3>
+                    <h3>Option 1: Donate</h3>
                     <p>Got any extra fruits, vegetables, protein, dairy, or grains at your home? Add donations to our database, and we will help you pass your food along to a neighbor or food pantry in your city!</p>
                     <a class="btn btn-custom" href="/donate" role="button">Donate</a>
                 </div>
                 
                 <div class="col-sm-4">
-                    <h3 class="how-it-works-heading">Option 2: Receive</h3>
+                    <h3>Option 2: Receive</h3>
                     <p>Whether you're a food pantry or an individual, browse the food donations in your city, and find the exact food that you are looking for! You will be able to specify the type and quantity of food that you need.</p>
                     <a class="btn btn-custom" href="/receive" role="button">Receive</a>
                 </div>
 
                 <div class="col-sm-4">
-                    <h3 class="how-it-works-heading">Enjoy!</h3>
+                    <h3>Enjoy!</h3>
                     <p>Food Fusion runs on community — so whether you donated food or received food, be thankful for your neighbors, and make sure to pay it forward. Thank you for using Food Fusion! :)</p>
                 </div>
 
             </div>
         </div>
     </section>
-
 
 {% endblock %}

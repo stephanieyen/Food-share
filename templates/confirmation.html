@@ -1,25 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
-    <title>Donate Food</title>
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Import the webpage's stylesheet -->
-    <link rel="stylesheet" type="text/css" href="static/css/donate.css?q={{ time }}" />
-
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-	<!--Import bootstrap.css here using the CDN -->
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <title>Donate Confirmation</title>
 </head>
 
-<body>
+{% extends "base.html" %}
+{% block content %}
+
+    <!-- NAV BAR -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+    <a class="navbar-brand" href="/index">
+        <i class="fas fa-shopping-basket"></i>
+        Food Fusion
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="/index">Home</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/donate">Donate<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/receive">Receive</a>
+        </li>
+        </ul>
+    </div>
+    </nav>
+
+    <!-- PAGE CONTENT -->
+    <!-- Masthead -->
+    <header class="masthead" id="receive-masthead">
+        <div class="container">
+            <!-- Masthead Heading -->
+            <h1 class="masthead-heading highlight">Donate Confirmation</h1>
+        </div>
+    </header>
+
 	<div class="container">
         <h1>Thank you for donating!</h1>
         <p>Thank you for donating! Before sending the food to consumers, we are required
@@ -28,18 +46,4 @@
         <a href="/donate"><button type="button" class="btn btn-primary">Donate more</button></a>
 	</div>
 
-	<!-- {% if session.name %}
-        {% endif %}
-        <a href="/events/new"><button>Add a new event</button></a>
-        <a href="/signup"><button>Sign up</button></a>
-        <a href="/myevents"><button>My events</button></a>
-        <a href="/login"><button>Log in</button></a>
-        <a href="/logout"><button>Log out</button></a> -->
-
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-</body>
-
-</html>
+{% endblock %}
