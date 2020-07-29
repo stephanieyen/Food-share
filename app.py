@@ -3,7 +3,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo, ObjectId
 from flask import redirect
 from flask import session, url_for
 from datetime import datetime
@@ -44,7 +44,7 @@ def donate():
         # this is storing the data from the form 
         name = request.form['name']
         city = request.form['city'].lower()
-        print(city)
+        # print(city)
         description = request.form['description']
         typeoffood = request.form['type']
         email = request.form['email']
@@ -77,7 +77,7 @@ def receive():
             message = "You got some results!"
         else:
             message = "Sorry, we couldn't find any results."
-        print(donateView)
+        # print(donateView)
         return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message)
 
 # @app.route('/deleteall')
@@ -87,55 +87,63 @@ def receive():
 #     donate.remove({})
 #     return "You deleted everything"
 
-@app.route('/check_availability/<description>', methods = ["GET", "POST"])
-def check_availability(description):
+@app.route('/check_availability/<id>', methods = ["GET", "POST"])
+def check_availability(id):
     if request.method == "GET":
         # this is storing the data from the form
         donate = mongo.db.donate
-        donateview = list(donate.find({"description": description}))
-        print(donateview)
+        identity = ObjectId(str(id))
+        # print(identity)
+        donateview = list(donate.find({"_id": identity}))
+        # print(donateview)
         quantity = donateview[0]["quantity"]
         food = donateview[0]["description"]
         kind = donateview[0]["type"]
         name = donateview[0]["name"]
         email = donateview[0]["email"]
-        print(quantity)
-        return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email)
+        # print(quantity)
+        return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, id = identity)
     else:
         # get the user quantity from form
         user_quantity = request.form['quantity']
         # connect with database and query the database and store variables "89-98"
         donate = mongo.db.donate
-        donateview = list(donate.find({"description": description}))
+        identity = ObjectId(str(id))
+        # print(identity)
+        donateview = list(donate.find({"_id": identity}))
         # print(donateview)
         quantity = donateview[0]["quantity"]
         kind = donateview[0]["type"]
         # print(quantity)
         # subtraction = subtract user_quantity from quantity
         remaining = int(quantity) - int(user_quantity)
-        print(remaining)
+        # print(remaining)
         # compare it with the quantity that's already in the database
         if remaining > 0:
             # insert new data
             receive = mongo.db.receive
             searchreceive = list(receive.find({"type": kind}))
-            receive.insert({'quantity': quantity})
-            donate.update({'description': description}, {"$set": {'quantity': str(remaining)}})
+            print(searchreceive)
+            # receive.insert({'quantity': quantity})
+            # receive.update({'type': }, {"$set": {'quantity': str(remaining)}})
+            donate.update({'_id': identity}, {"$set": {'quantity': str(remaining)}})
             donate = mongo.db.donate
-            donateview = list(donate.find({"description": description}))
-            print(donateview)
+            donateview = list(donate.find({"_id": identity}))
+            # print(donateview)
             quantity = donateview[0]["quantity"]
             food = donateview[0]["description"]
             kind = donateview[0]["type"]
             name = donateview[0]["name"]
             email = donateview[0]["email"]
-            print(quantity)
-            return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email)
+            # print(quantity)
+            return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, identity = identity)
         elif remaining == 0:
             # insert new data
+            receive = mongo.db.receive
+            searchreceive = list(receive.find({"type": kind}))
             receive.insert({'quantity': quantity})
             donate = mongo.db.donate
-            donate.remove({"description": description})
+            donate.remove({"_id": identity})
             return render_template('receive.html', time=datetime.now())
         else: 
             return "You need more than we have available"
