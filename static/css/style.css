@@ -60,7 +60,7 @@ p,
 .btn-custom {
     background: black !important;
     color: #bebdbd !important;
-    margin-top: 6px;
+    margin-top: 15px;
     transition: all .3s;
 }
 .btn-custom:hover {
@@ -253,15 +253,36 @@ p,
 #donate-masthead {
     padding: 100px;
     background-image: url("/../static/assets/vegetables.jpeg");
-    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: cover;
     /* opacity: 0.6; */
     background-color: rgba(255,255,255,0.6);
     background-blend-mode: lighten;
 }
 #receive-masthead {
     padding: 100px;
+    background-image: url("/../static/assets/newtomatoes2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* opacity: 0.6; */
+    background-color: rgba(255,255,255,0.6);
+    background-blend-mode: lighten;
 }
 #donate-form-section,
-#receive-form-section {
+#donate-confirmation-section,
+#receive-form-section,
+#check-availability-section {
     background-color: #edeae5;
+}
+#check-availability-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+    font-size: 30px;
+}
+#check-availability-section .detail {
+    font-family: 'Quattrocento Sans', sans-serif;
+    font-size: 25px;
+}
+#donate-confirmation-section {
+    height: 500px;
 }
