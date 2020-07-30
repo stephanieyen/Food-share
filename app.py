@@ -106,6 +106,7 @@ def check_availability(id, receive_id):
         email = donateview[0]["email"]
         # print(quantity)
         return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, id = identity, receive_id = receive_id)
+
 @app.route('/move_food/<id>/<receive_id>', methods = ["GET", "POST"])
 def move_food(id, receive_id):
     if request.method == "GET":
@@ -128,12 +129,9 @@ def move_food(id, receive_id):
         donate = mongo.db.donate
         identity = ObjectId(str(id))
         receive_identity = ObjectId(str(receive_id))
-        # print(identity)
         donateview = list(donate.find({"_id": identity}))
-        # print(donateview)
         quantity = donateview[0]["quantity"]
         kind = donateview[0]["type"]
-        # print(quantity)
         # subtraction = subtract user_quantity from quantity
         remaining = int(quantity) - int(user_quantity)
         # print(remaining)
@@ -143,29 +141,47 @@ def move_food(id, receive_id):
             receive = mongo.db.receive
             # receive.insert({'quantity': quantity})
             receive.update({'_id': receive_identity}, {"$set": {'quantity': user_quantity}})
-            searchreceive = list(receive.find({}))
+            searchreceive = list(receive.find({"_id": receive_identity}))
+            receive_name = searchreceive[0]["name"]
+            receive_city = searchreceive[0]["city"]
+            receive_type = searchreceive[0]["type"]
+            receive_email = searchreceive[0]["email"]
+            receive_quantity = searchreceive[0]["quantity"]
             for item in searchreceive:
                 print(item)
             donate.update({'_id': identity}, {"$set": {'quantity': str(remaining)}})
             # donate = mongo.db.donate
             donateview = list(donate.find({"_id": identity}))
-            # print(donateview)
             quantity = donateview[0]["quantity"]
             food = donateview[0]["description"]
             kind = donateview[0]["type"]
             name = donateview[0]["name"]
             email = donateview[0]["email"]
-            # print(quantity)
-            return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, identity = identity)
+            message = "Here's a summary of your receive request: "
+            return render_template('receive-confirmation.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, identity = identity, 
+                receive_name = receive_name, receive_city = receive_city, receive_type = receive_type, receive_email = receive_email, receive_quantity = receive_quantity, message=message)
         elif remaining == 0:
             # insert new data
             receive = mongo.db.receive
             receive.update({'_id': receive_identity}, {"$set": {'quantity': user_quantity}})
+            searchreceive = list(receive.find({"_id": receive_identity}))
+            receive_name = searchreceive[0]["name"]
+            receive_city = searchreceive[0]["city"]
+            receive_type = searchreceive[0]["type"]
+            receive_email = searchreceive[0]["email"]
+            receive_quantity = searchreceive[0]["quantity"]
             donate = mongo.db.donate
+            donateview = list(donate.find({"_id": identity}))
+            food = donateview[0]["description"]
             donate.remove({"_id": identity})
-            return render_template('receive.html', time=datetime.now())
+            message = "Here's a summary of your receive request: "
+            return render_template('receive-confirmation.html', time=datetime.now(), food=food, receive_name = receive_name, receive_city = receive_city, receive_type = receive_type, receive_email = receive_email, receive_quantity = receive_quantity, message=message)
         else:
-            return "You need more than we have available"
+            # Show donate quantity
+            donate = mongo.db.donate
+            donateview = list(donate.find({"_id": identity}))
+            donate_quantity = donateview[0]["quantity"]
+            return render_template('receive-fail.html', time=datetime.now(), donate_quantity = donate_quantity)
         # if subtraction is negative then say "we don't have enough"
         # else do the subtraction and save it to the database
         # return "page in progress"

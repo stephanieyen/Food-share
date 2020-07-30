@@ -271,15 +271,21 @@ p,
 #donate-form-section,
 #donate-confirmation-section,
 #receive-form-section,
-#check-availability-section {
+#check-availability-section,
+#receive-confirmation-section,
+#receive-fail-section {
     background-color: #edeae5;
 }
-#check-availability-section h3 {
+#check-availability-section h3, 
+#receive-confirmation-section h3,
+#receive-fail-section {
     font-family: 'Playfair Display', serif;
     font-weight: bold;
     font-size: 30px;
 }
-#check-availability-section .detail {
+#check-availability-section .detail,
+#receive-confirmation-section .detail,
+#receive-fail-section .detail  {
     font-family: 'Quattrocento Sans', sans-serif;
     font-size: 25px;
 }

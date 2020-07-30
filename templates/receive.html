@@ -55,8 +55,8 @@
                     <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
                 </div>
                 <div class="form-group">
-                    <label for="typeoffood">Type(s) of food you would like to receive</label>
-                    <select multiple class="form-control" id="type" name="type">
+                    <label for="typeoffood">Type of food you would like to receive</label>
+                    <select class="form-control" id="type" name="type">
                         <option>Fruits (e.g., apples, bananas)</option>
                         <option>Vegetables (e.g., lettuce, potatoes)</option>
                         <option>Protein (e.g., chicken, tofu)</option>
@@ -80,7 +80,7 @@
                             <h6 class="card-subtitle mb-2 text-muted">{{donation.type}}</h6>
                             <p class="card-text">Donated by {{donation.name|capitalize}} in {{donation.city|capitalize}}.
                                 <br>Contact them at {{donation.email}}!</p>
-                            <a class="btn btn-custom" href="/check_availability/{{donation._id}}/{{receive_id}}">See availabilty</a>
+                            <a class="btn btn-custom" href="/check_availability/{{donation._id}}/{{receive_id}}">See availability</a>
                         </div>
                     </div>
                 </div>
