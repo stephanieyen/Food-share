@@ -1,0 +1,55 @@
+<head>
+    <title>Receive Confirmation</title>
+</head>
+
+{% extends "base.html" %}
+{% block content %}
+
+    <!-- NAV BAR -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom fixed-top">
+    <a class="navbar-brand" href="/index">
+        <i class="fas fa-shopping-basket"></i>
+        Food Fusion
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="/index">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/donate">Donate</a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/receive">Receive<span class="sr-only">(current)</span></a>
+        </li>
+        </ul>
+    </div>
+    </nav>
+
+    <!-- PAGE CONTENT -->
+    <!-- Masthead -->
+    <header class="masthead" id="receive-masthead">
+        <div class="container">
+            <!-- Masthead Heading -->
+            <h1 class="masthead-heading highlight">Receive Confirmation</h1>
+        </div>
+    </header>
+
+    <section class="page-section" id="receive-confirmation-section">
+        <div class="container">
+            <h2 class="page-section-heading">Thank you!</h2>
+            <h3>Name of donor: <span class="detail">{{name}}</detail></h3>
+            <h3>Email: <span class="detail">{{email}}</detail></h3>
+            <h3>Name of food: <span class="detail">{{food}}</detail></h3>
+            <h3>Kind of food: <span class="detail">{{kind}}</detail></h3>
+            <h3>Quantity left: <span class="detail">{{quantity}}</detail></h3>
+            <p>Thank you for donating! Before sending the food to consumers, we are required
+            to verify your donated foods. We will be contacting you soon.    
+            <a href="/donate"><button type="button" class="btn btn-custom">Receive more</button></a>
+        </div>
+    </section>
+
+{% endblock %}
