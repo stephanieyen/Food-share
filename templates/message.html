@@ -45,8 +45,9 @@
             <h3>Name of food: <span class="detail">{{food}}</detail></h3>
             <h3>Kind of food: <span class="detail">{{kind}}</detail></h3>
             <h3>Quantity left: <span class="detail">{{quantity}}</detail></h3>
-            <form method="POST" action="/check_availability/{{id}}">
+            <form method="POST" action="/move_food/{{id}}/{{receive_id}}">
                 <div class="form-group">
+                    <input type="hidden" name="receive_id" value="{{receive_id}}">
                     <label for="quantity">How much of this food do you want?</label>
                     <input type="number" class="form-control" id="quantity" name="quantity" placeholder="Quantity (#)" required>
                     <button type="submit" class="btn btn-custom">Submit</button>

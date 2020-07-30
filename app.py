@@ -68,27 +68,30 @@ def receive():
         typeoffood = request.form['type']
         email = request.form['email']
         # this is connecting to mongodb
-        receive = mongo.db.receive
-        # this is connecting to mongodb
         donate = mongo.db.donate
         donateView = list(donate.find({'city': city, 'type': typeoffood})) # sort?
         if len(donateView) > 0:
-            receive.insert({'name': name, 'city': city, 'type': typeoffood, 'email': email})
+            receive = mongo.db.receive
+            receive_id = receive.insert({'name': name, 'city': city, 'type': typeoffood, 'email': email})
+            # print(receive_id)
             message = "You got some results!"
         else:
             message = "Sorry, we couldn't find any results."
         # print(donateView)
-        return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message)
+        return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message, receive_id = receive_id)
 
-# @app.route('/deleteall')
-# def deleteall():
-#     donate = mongo.db.donate
-#     view = donate.find({})
-#     donate.remove({})
-#     return "You deleted everything"
+@app.route('/deleteall')
+def deleteall():
+    receive = mongo.db.receive
+    view = receive.find({})
+    receive.remove({})
+    donate = mongo.db.donate
+    view2 = donate.find({})
+    donate.remove({})
+    return "You deleted everything"
 
-@app.route('/check_availability/<id>', methods = ["GET", "POST"])
-def check_availability(id):
+@app.route('/check_availability/<id>/<receive_id>', methods = ["GET", "POST"])
+def check_availability(id, receive_id):
     if request.method == "GET":
         # this is storing the data from the form
         donate = mongo.db.donate
@@ -102,13 +105,29 @@ def check_availability(id):
         name = donateview[0]["name"]
         email = donateview[0]["email"]
         # print(quantity)
-        return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, id = identity)
+        return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, id = identity, receive_id = receive_id)
+@app.route('/move_food/<id>/<receive_id>', methods = ["GET", "POST"])
+def move_food(id, receive_id):
+    if request.method == "GET":
+        donate = mongo.db.donate
+        identity = ObjectId(str(id))
+        # print(identity)
+        donateview = list(donate.find({"_id": identity}))
+        # print(donateview)
+        quantity = donateview[0]["quantity"]
+        food = donateview[0]["description"]
+        kind = donateview[0]["type"]
+        name = donateview[0]["name"]
+        email = donateview[0]["email"]
+        # print(quantity)
+        return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, id = identity, receive_id = receive_id)
     else:
         # get the user quantity from form
         user_quantity = request.form['quantity']
         # connect with database and query the database and store variables "89-98"
         donate = mongo.db.donate
         identity = ObjectId(str(id))
+        receive_identity = ObjectId(str(receive_id))
         # print(identity)
         donateview = list(donate.find({"_id": identity}))
         # print(donateview)
@@ -122,12 +141,13 @@ def check_availability(id):
         if remaining > 0:
             # insert new data
             receive = mongo.db.receive
-            searchreceive = list(receive.find({"type": kind}))
-            print(searchreceive)
             # receive.insert({'quantity': quantity})
-            # receive.update({'type': }, {"$set": {'quantity': str(remaining)}})
+            receive.update({'_id': receive_identity}, {"$set": {'quantity': user_quantity}})
+            searchreceive = list(receive.find({}))
+            for item in searchreceive:
+                print(item)
             donate.update({'_id': identity}, {"$set": {'quantity': str(remaining)}})
-            donate = mongo.db.donate
+            # donate = mongo.db.donate
             donateview = list(donate.find({"_id": identity}))
             # print(donateview)
             quantity = donateview[0]["quantity"]
@@ -140,12 +160,11 @@ def check_availability(id):
         elif remaining == 0:
             # insert new data
             receive = mongo.db.receive
-            searchreceive = list(receive.find({"type": kind}))
-            receive.insert({'quantity': quantity})
+            receive.update({'_id': receive_identity}, {"$set": {'quantity': user_quantity}})
             donate = mongo.db.donate
             donate.remove({"_id": identity})
             return render_template('receive.html', time=datetime.now())
-        else: 
+        else:
             return "You need more than we have available"
         # if subtraction is negative then say "we don't have enough"
         # else do the subtraction and save it to the database
