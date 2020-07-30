@@ -1,5 +1,5 @@
 <head>
-    <title>Receive Confirmation</title>
+    <title>Receive Fail</title>
 </head>
 
 {% extends "base.html" %}
@@ -34,20 +34,21 @@
     <header class="masthead" id="receive-masthead">
         <div class="container">
             <!-- Masthead Heading -->
-            <h1 class="masthead-heading highlight">Receive Confirmation</h1>
+            <h1 class="masthead-heading highlight">We are sorry.</h1>
         </div>
     </header>
 
-    <section class="page-section" id="receive-confirmation-section">
+    <section class="page-section" id="receive-fail-section">
         <div class="container">
-            <h2 class="page-section-heading">{{message}}</h2>
-            <h3>Name: <span class="detail">{{receive_name}}</detail></h3>
-            <h3>Email: <span class="detail">{{receive_email}}</detail></h3>
-            <h3>Description of food: <span class="detail">{{food}}</detail></h3>
-            <h3>Type of food: <span class="detail">{{receive_type}}</detail></h3>
-            <h3>Quantity requested: <span class="detail">{{receive_quantity}}</detail></h3>
-            <a href="/receive"><button type="button" class="btn btn-custom">Receive more</button></a>
+            <h2 class="page-section-heading">You are requesting more than we have available.</h2>
+            <h3>Quantity left: <span class="detail">{{donate_quantity}}</detail></h3>
+            <a onclick="goBack()"><button type="button" class="btn btn-custom">Try again!</button></a>
         </div>
     </section>
 
+    <script>
+        function goBack() {
+        window.history.back();
+        }
+    </script>
 {% endblock %}

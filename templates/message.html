@@ -40,10 +40,11 @@
 
     <section class="page-section" id="check-availability-section">
         <div class="container">
+            <h2 class="page-section-heading">Info about this donation:</h2>
             <h3>Name of donor: <span class="detail">{{name}}</detail></h3>
-            <h3>Email: <span class="detail">{{email}}</detail></h3>
-            <h3>Name of food: <span class="detail">{{food}}</detail></h3>
-            <h3>Kind of food: <span class="detail">{{kind}}</detail></h3>
+            <h3>Email of donor: <span class="detail">{{email}}</detail></h3>
+            <h3>Description of food: <span class="detail">{{food}}</detail></h3>
+            <h3>Type of food: <span class="detail">{{kind}}</detail></h3>
             <h3>Quantity left: <span class="detail">{{quantity}}</detail></h3>
             <form method="POST" action="/move_food/{{id}}/{{receive_id}}">
                 <div class="form-group">
@@ -53,7 +54,7 @@
                     <button type="submit" class="btn btn-custom">Submit</button>
                 </div>
             </form>
-            <a href="/receive"><button type="button" class="btn btn-custom">Go back</button></a>
+            <a onclick="goBack()"><button type="button" class="btn btn-custom">Go back</button></a>
         </div>
 
         <div class="container">
@@ -65,4 +66,9 @@
         </div>
     </section>
 
+    <script>
+        function goBack() {
+        window.history.back();
+        }
+    </script>
 {% endblock %}
