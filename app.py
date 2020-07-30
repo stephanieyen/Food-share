@@ -75,10 +75,11 @@ def receive():
             receive_id = receive.insert({'name': name, 'city': city, 'type': typeoffood, 'email': email})
             # print(receive_id)
             message = "You got some results!"
+            return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message, receive_id = receive_id)
         else:
             message = "Sorry, we couldn't find any results."
+            return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message)
         # print(donateView)
-        return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message, receive_id = receive_id)
 
 @app.route('/deleteall')
 def deleteall():
