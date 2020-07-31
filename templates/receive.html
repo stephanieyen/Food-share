@@ -73,8 +73,8 @@
             <p>{{message}}</p>
             <div class="row">
                 {% for donation in donateView %}
-                <div class="col-sm-4">
-                    <div class="card">
+                <div class="card-deck col-sm-4 mb-3">
+                    <div class="card flex-fill">
                         <div class="card-body">
                             <h5 class="card-title">{{donation.description|capitalize}}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{donation.type}}</h6>
