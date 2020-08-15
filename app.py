@@ -24,11 +24,11 @@ app.config['MONGO_URI'] = f'mongodb+srv://{user}:{pw}@cluster0.ovdqf.mongodb.net
 mongo = PyMongo(app)
 
 # -- Routes section --
+
 # INDEX
 
 @app.route('/')
 @app.route('/index')
-
 def index():
     return render_template('index.html', time = datetime.now())
 
@@ -36,153 +36,143 @@ def index():
 # CONNECT TO DB, ADD DATA
 
 @app.route('/donate', methods = ["GET", "POST"])
-
 def donate():
     if request.method == "GET":
         return render_template('donate.html', time=datetime.now())
     else:
-        # this is storing the data from the form 
+        # store the data from the donate form so we can add it to mongodb
         name = request.form['name']
         city = request.form['city'].lower()
-        # print(city)
         description = request.form['description']
         typeoffood = request.form['type']
         email = request.form['email']
         quantity = request.form['quantity']
-        # this is connecting to mongodb
+        # connect to the donate collection in mongodb
         donate = mongo.db.donate
-        # insert new data
+        # insert new data to the donate collection
         donate.insert({'name': name, 'city': city, 'description': description, 'type': typeoffood, 'email': email, 'quantity': quantity})
-        # return a message to the user
+        # display the Confirmation page
         return render_template('confirmation.html', time=datetime.now())
-@app.route('/receive', methods = ["GET", "POST"])
 
+@app.route('/receive', methods = ["GET", "POST"])
 def receive():
     if request.method == "GET":
         return render_template('receive.html', time=datetime.now())
     else:
-        # this is storing the data from the form 
+        # store the data from the receive form so we can query it from mongodb
         name = request.form['name'] 
         city = request.form['city'].lower()
-        # print(city)
         typeoffood = request.form['type']
         email = request.form['email']
-        # this is connecting to mongodb
+        # connect to the donate collection in mongodb
         donate = mongo.db.donate
-        donateView = list(donate.find({'city': city, 'type': typeoffood})) # sort?
-        if len(donateView) > 0:
+        # show donated foods if it matches the receiver's city and type of food
+        donateview = list(donate.find({'city': city, 'type': typeoffood}))
+        sorted_donateview = sorted(donateview, key=lambda k: k['description']) # sort by description
+        if len(donateview) > 0:
+            # connect to the receive collection in mongodb
             receive = mongo.db.receive
+            # insert new data to the receive collection
             receive_id = receive.insert({'name': name, 'city': city, 'type': typeoffood, 'email': email})
-            # print(receive_id)
-            message = "You got some results!"
-            return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message, receive_id = receive_id)
+            # display success message and matching donations
+            num_results = len(donateview)
+            message = f"You got {num_results} results!"
+            return render_template('receive.html', time=datetime.now(), donateview=sorted_donateview, message=message, receive_id=receive_id)
         else:
+            # display failure message
             message = "Sorry, we couldn't find any results."
-            return render_template('receive.html', time=datetime.now(), donateView=donateView, message=message)
-        # print(donateView)
+            return render_template('receive.html', time=datetime.now(), donateview=sorted_donateview, message=message)
+
+@app.route('/check_availability/<id>/<receive_id>', methods = ["GET", "POST"])
+# this route is accessed after the user clicks "See availability" on a certain donation on the Receive page
+def check_availability(id, receive_id):
+    if request.method == "GET":
+        # connect to the donate collection in mongodb
+        donate = mongo.db.donate
+        # use donate ID to find the specific donation that the receiver clicks on
+        identity = ObjectId(str(id))
+        donateview = list(donate.find({"_id": identity}))
+        # store the data from the donate form so we can display it 
+        name = donateview[0]["name"]
+        email = donateview[0]["email"]
+        description = donateview[0]["description"]
+        typeoffood = donateview[0]["type"]
+        quantity = donateview[0]["quantity"]
+        return render_template('check-availability.html', time=datetime.now(), name=name, email=email, description=description, typeoffood=typeoffood, quantity=quantity,
+                                                          id=identity, receive_id=receive_id)
+
+@app.route('/move_food/<id>/<receive_id>', methods = ["GET", "POST"])
+# this route is accessed after the user clicks "Submit" on the Check Availability page
+def move_food(id, receive_id):
+    # connect to the donate collection in mongodb
+    donate = mongo.db.donate
+    # use donate ID to find the specific donation that the receiver clicks on
+    identity = ObjectId(str(id))
+    donateview = list(donate.find({"_id": identity}))
+    # store the data from the donate form 
+    name = donateview[0]["name"]
+    email = donateview[0]["email"]
+    description = donateview[0]["description"]
+    typeoffood = donateview[0]["type"]
+    quantity = donateview[0]["quantity"]
+    if request.method == "GET":
+        # display the Check Availability page
+        return render_template('check-availability.html', time=datetime.now(), name=name, email=email, description=description, typeoffood=typeoffood, quantity=quantity,
+                                                          id=identity, receive_id=receive_id)
+    else:
+        # use receive ID to add the receiver's requested quantity to their document in mongodb
+        receive_identity = ObjectId(str(receive_id))
+        user_quantity = request.form['quantity']
+        # compare the receiver's requested quantity with the quantity that's already in the donate collection
+        remaining_quantity = int(quantity) - int(user_quantity)
+        if remaining_quantity >= 0: 
+            # connect to the receive collection in mongodb
+            receive = mongo.db.receive
+            # update the receiver's document with their requested quantity
+            receive.update({'_id': receive_identity}, {"$set": {'quantity': user_quantity}})
+            # store the receiver's data so we can display it 
+            searchreceive = list(receive.find({"_id": receive_identity}))
+            receive_name = searchreceive[0]["name"]
+            receive_email = searchreceive[0]["email"]
+            receive_city = searchreceive[0]["city"]
+            receive_type = searchreceive[0]["type"]
+            receive_quantity = searchreceive[0]["quantity"]
+            if remaining_quantity > 0:
+                # if remaining quantity is > 0, update the document in the donate collection
+                donate.update({'_id': identity}, {"$set": {'quantity': str(remaining_quantity)}})
+                # display the Receive Confirmation page
+                return render_template('receive-confirmation.html', time=datetime.now(), description=description, receive_name=receive_name, receive_email=receive_email, receive_city=receive_city, receive_type=receive_type, receive_quantity=receive_quantity)
+            else:
+                # if remaining quantity equals 0, remove the document from the donate collection
+                donate.remove({"_id": identity})
+                # display the Receive Confirmation page
+                return render_template('receive-confirmation.html', time=datetime.now(), description=description, receive_name=receive_name, receive_email=receive_email, receive_city=receive_city, receive_type=receive_type, receive_quantity=receive_quantity)
+        else:
+            # if remaining quantity is < 0, show donate quantity
+            donate_quantity = donateview[0]["quantity"]
+            # display the Receive Failure page 
+            return render_template('receive-fail.html', time=datetime.now(), donate_quantity = donate_quantity)
+
+# TESTING
 
 @app.route('/deleteall')
 def deleteall():
+    # receive collection
     receive = mongo.db.receive
-    view = receive.find({})
+    receiveview = receive.find({})
     receive.remove({})
+    # donate collection
     donate = mongo.db.donate
-    view2 = donate.find({})
+    donateview = donate.find({})
     donate.remove({})
+    # confirmation message
     return "You deleted everything"
 
-@app.route('/check_availability/<id>/<receive_id>', methods = ["GET", "POST"])
-def check_availability(id, receive_id):
-    if request.method == "GET":
-        # this is storing the data from the form
-        donate = mongo.db.donate
-        identity = ObjectId(str(id))
-        # print(identity)
-        donateview = list(donate.find({"_id": identity}))
-        # print(donateview)
-        quantity = donateview[0]["quantity"]
-        food = donateview[0]["description"]
-        kind = donateview[0]["type"]
-        name = donateview[0]["name"]
-        email = donateview[0]["email"]
-        # print(quantity)
-        return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, id = identity, receive_id = receive_id)
-
-@app.route('/move_food/<id>/<receive_id>', methods = ["GET", "POST"])
-def move_food(id, receive_id):
-    if request.method == "GET":
-        donate = mongo.db.donate
-        identity = ObjectId(str(id))
-        # print(identity)
-        donateview = list(donate.find({"_id": identity}))
-        # print(donateview)
-        quantity = donateview[0]["quantity"]
-        food = donateview[0]["description"]
-        kind = donateview[0]["type"]
-        name = donateview[0]["name"]
-        email = donateview[0]["email"]
-        # print(quantity)
-        return render_template('message.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, id = identity, receive_id = receive_id)
-    else:
-        # get the user quantity from form
-        user_quantity = request.form['quantity']
-        # connect with database and query the database and store variables "89-98"
-        donate = mongo.db.donate
-        identity = ObjectId(str(id))
-        receive_identity = ObjectId(str(receive_id))
-        donateview = list(donate.find({"_id": identity}))
-        quantity = donateview[0]["quantity"]
-        kind = donateview[0]["type"]
-        # subtraction = subtract user_quantity from quantity
-        remaining = int(quantity) - int(user_quantity)
-        # print(remaining)
-        # compare it with the quantity that's already in the database
-        if remaining > 0:
-            # insert new data
-            receive = mongo.db.receive
-            # receive.insert({'quantity': quantity})
-            receive.update({'_id': receive_identity}, {"$set": {'quantity': user_quantity}})
-            searchreceive = list(receive.find({"_id": receive_identity}))
-            receive_name = searchreceive[0]["name"]
-            receive_city = searchreceive[0]["city"]
-            receive_type = searchreceive[0]["type"]
-            receive_email = searchreceive[0]["email"]
-            receive_quantity = searchreceive[0]["quantity"]
-            for item in searchreceive:
-                print(item)
-            donate.update({'_id': identity}, {"$set": {'quantity': str(remaining)}})
-            # donate = mongo.db.donate
-            donateview = list(donate.find({"_id": identity}))
-            quantity = donateview[0]["quantity"]
-            food = donateview[0]["description"]
-            kind = donateview[0]["type"]
-            name = donateview[0]["name"]
-            email = donateview[0]["email"]
-            message = "Here's a summary of your receive request: "
-            return render_template('receive-confirmation.html', time=datetime.now(), quantity = quantity, food = food, kind = kind, name = name, email = email, identity = identity, 
-                receive_name = receive_name, receive_city = receive_city, receive_type = receive_type, receive_email = receive_email, receive_quantity = receive_quantity, message=message)
-        elif remaining == 0:
-            # insert new data
-            receive = mongo.db.receive
-            receive.update({'_id': receive_identity}, {"$set": {'quantity': user_quantity}})
-            searchreceive = list(receive.find({"_id": receive_identity}))
-            receive_name = searchreceive[0]["name"]
-            receive_city = searchreceive[0]["city"]
-            receive_type = searchreceive[0]["type"]
-            receive_email = searchreceive[0]["email"]
-            receive_quantity = searchreceive[0]["quantity"]
-            donate = mongo.db.donate
-            donateview = list(donate.find({"_id": identity}))
-            food = donateview[0]["description"]
-            donate.remove({"_id": identity})
-            message = "Here's a summary of your receive request: "
-            return render_template('receive-confirmation.html', time=datetime.now(), food=food, receive_name = receive_name, receive_city = receive_city, receive_type = receive_type, receive_email = receive_email, receive_quantity = receive_quantity, message=message)
-        else:
-            # Show donate quantity
-            donate = mongo.db.donate
-            donateview = list(donate.find({"_id": identity}))
-            donate_quantity = donateview[0]["quantity"]
-            return render_template('receive-fail.html', time=datetime.now(), donate_quantity = donate_quantity)
-        # if subtraction is negative then say "we don't have enough"
-        # else do the subtraction and save it to the database
-        # return "page in progress"
+@app.route('/deletereceive')
+def deletereceive():
+    # receive collection
+    receive = mongo.db.receive
+    receiveview = receive.find({})
+    receive.remove({})
+    # confirmation message
+    return "You deleted everything in the receive collection"
